@@ -47,3 +47,11 @@ export const getReplies = async (id: number) => {
     },
   });
 };
+
+export const deleteThread = async (id: number) => {
+  return await apiConfig.delete(`deleteThread/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};

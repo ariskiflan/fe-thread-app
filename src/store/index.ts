@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import authReducer from "./slice/auth";
+import threadReducer from "./slice/thread";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    thread: threadReducer,
   },
 });
 

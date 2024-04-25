@@ -2,8 +2,8 @@ import { Box, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Thread from "./Thread";
 import ThreadPost from "./ThreadPost";
-import { getThreads } from "../libs/api/call/thread";
 import { IThread } from "../types/app";
+import { getThreads } from "../libs/api/call/thread";
 
 const Home = () => {
   const [threads, setThreads] = useState<IThread[] | []>([]);
@@ -45,7 +45,7 @@ const Home = () => {
             },
           }}
         >
-          <Box pos={"fixed"} width={"695px"} bgColor={"#262626"}>
+          <Box pos={"fixed"} width={"695px"} bgColor={"#262626"} zIndex={"999"}>
             <Text
               fontSize={"28px"}
               fontWeight={"700"}
@@ -62,7 +62,7 @@ const Home = () => {
             {threads.map((item) => {
               return (
                 <Box key={item.id}>
-                  <Thread thread={item} />
+                  <Thread thread={item} callback={getThread} />
                 </Box>
               );
             })}

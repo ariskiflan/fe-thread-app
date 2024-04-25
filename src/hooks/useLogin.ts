@@ -1,10 +1,8 @@
 import { ChangeEvent, useState } from "react";
-import { login } from "../libs/api/call/user";
-import { getProfile } from "../libs/api/call/profile";
-import { useAppDispatch } from "../store";
-import { SET_LOGIN } from "../store/slice/auth";
+import { useAppDispatch, useAppSelector } from "../store";
 import { ILogin } from "../types/app";
 import { useNavigate } from "react-router-dom";
+import { getProfileAsync, loginAsync } from "../store/async/auth";
 
 const useLogin = () => {
   const [formInput, setFormInput] = useState<ILogin>({
@@ -14,8 +12,9 @@ const useLogin = () => {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { token } = useAppSelector((state) => state.auth);
 
-  const [msg, setMsg] = useState();
+  const [msg, setMsg] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const togleShowPassword = () => {
@@ -25,19 +24,12 @@ const useLogin = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await login(formInput);
+      await dispatch(loginAsync(formInput));
 
-      const token = res.data.data;
-
-      const resProfile = await getProfile(token);
-      localStorage.setItem("token", token);
-
-      dispatch(SET_LOGIN({ user: resProfile.data.data, token }));
       navigate("/");
+      await dispatch(getProfileAsync(token));
     } catch (error) {
-      if (error.response) {
-        setMsg(error.response.data.Message);
-      }
+      setMsg("Wrong username or password");
       console.log(error);
     }
   };

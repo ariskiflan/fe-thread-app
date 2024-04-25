@@ -12,7 +12,6 @@ const useAllPost = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      console.log(res);
 
       setThreadByToken(res.data.data);
     } catch (error) {

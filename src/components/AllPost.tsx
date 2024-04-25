@@ -1,22 +1,26 @@
 import { Box, Grid, GridItem, Image, Text } from "@chakra-ui/react";
 import { GoDotFill } from "react-icons/go";
 import Message from "../assets/image/message-text.png";
-import Avatar from "../assets/image/customer-5.jpg";
+
 import { IThread } from "../types/app";
 import { RootState, useAppSelector } from "../store";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
-import useLikes from "../hooks/useLikes";
-import { useEffect } from "react";
 
-const AllPost = (props: IThread) => {
-  const { content, image, posted_at, id } = props;
+import { Link } from "react-router-dom";
+import ModalDelete from "./ModalDelete";
+import { formatDate } from "../libs/date/formatDate";
+import Like from "./Like";
 
-  const { toogleLikes, getLikes, totalLikes, likes } = useLikes(Number(id));
+interface IThreadCardPost {
+  threadByToken: IThread;
+  callback?: () => {};
+}
+
+const AllPost: React.FC<IThreadCardPost> = ({ threadByToken, callback }) => {
+  const { content, image, posted_at, auhtor, id, _count } = threadByToken;
+
   const profile = useAppSelector((state: RootState) => state.auth.user);
+  const _host_url = "http://localhost:5000/uploads/";
 
-  useEffect(() => {
-    getLikes();
-  }, [getLikes]);
   return (
     <div>
       <Box>
@@ -26,8 +30,14 @@ const AllPost = (props: IThread) => {
           borderBottom={"1px"}
           borderColor={"#3f3f3f"}
           p={"20px"}
+          position={"relative"}
         >
-          <Image src={Avatar} rounded={"full"} width={"40px"} height={"40px"} />
+          <Image
+            src={_host_url + auhtor?.profile?.avatar}
+            rounded={"full"}
+            width={"40px"}
+            height={"40px"}
+          />
 
           <Box>
             <Box
@@ -47,8 +57,12 @@ const AllPost = (props: IThread) => {
               <GoDotFill size={"10px"} color={"#909090"} />
 
               <Text size={"14px"} color={"#909090"}>
-                {posted_at}
+                {formatDate(posted_at)}
               </Text>
+
+              <Box position={"absolute"} right={"10px"} top={"22px"}>
+                <ModalDelete thread={threadByToken} />
+              </Box>
             </Box>
 
             <Text
@@ -63,7 +77,7 @@ const AllPost = (props: IThread) => {
             <Grid templateColumns="repeat(2, 1fr)" gap={6} mb={"20px"}>
               {image &&
                 image.map((image) => (
-                  <GridItem>
+                  <GridItem key={image.id}>
                     <Image
                       src={"http://localhost:5000/uploads/" + image.image}
                       alt="image"
@@ -77,24 +91,19 @@ const AllPost = (props: IThread) => {
 
             <Box display={"flex"} gap={"20px"}>
               <Box display={"flex"} alignItems={"center"} gap={"10px"}>
-                <Text onClick={() => toogleLikes()}>
-                  {likes ? (
-                    <FaHeart size={"20px"} color={"red"} />
-                  ) : (
-                    <FaRegHeart size={"20px"} color={"#909090"} />
-                  )}
-                </Text>
-
+                <Like threadId={Number(id)} callback={callback} />
                 <Text size={"14px"} color={"#909090"}>
-                  {totalLikes}
+                  {_count.like}
                 </Text>
               </Box>
 
               <Box display={"flex"} alignItems={"center"} gap={"10px"}>
-                <Image src={Message} width={"20px"} />
+                <Link to={`/detailPage/${id}`}>
+                  <Image src={Message} width={"20px"} />
+                </Link>
 
                 <Text size={"14px"} color={"#909090"}>
-                  25 Replies
+                  {_count.replies} Replies
                 </Text>
               </Box>
             </Box>

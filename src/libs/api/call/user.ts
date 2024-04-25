@@ -10,7 +10,7 @@ export const register = async (body: IRegister) => {
 };
 
 export const getUsers = async () => {
-  return await apiConfig.get("users", {
+  return await apiConfig.get("user", {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },

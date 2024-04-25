@@ -10,13 +10,13 @@ import {
   Image,
   Input,
   FormControl,
+  useToast,
 } from "@chakra-ui/react";
 import { LuImagePlus } from "react-icons/lu";
 import Avatar from "../assets/image/customer-5.jpg";
 
 import { ChangeEvent, SyntheticEvent, useRef, useState } from "react";
 import { createThreads } from "../libs/api/call/thread";
-import useThread from "../hooks/useThread";
 
 interface IThreadPostProps {
   threadId?: number;
@@ -24,8 +24,6 @@ interface IThreadPostProps {
 
 const ModalPost: React.FC<IThreadPostProps> = ({ threadId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const { getThread } = useThread();
 
   const [postThreads, setPostThreads] = useState<{
     content: string;
@@ -36,6 +34,8 @@ const ModalPost: React.FC<IThreadPostProps> = ({ threadId }) => {
     image: null,
   });
 
+  const toast = useToast();
+
   const handlePostThreads = async (e: SyntheticEvent) => {
     e.preventDefault();
     try {
@@ -45,12 +45,18 @@ const ModalPost: React.FC<IThreadPostProps> = ({ threadId }) => {
 
       const res = await createThreads(postThreads);
 
+      toast({
+        title: "Thread Added!",
+        status: "success",
+        position: "top",
+        isClosable: true,
+      });
+
       setPostThreads({
         content: "",
         image: null,
       });
 
-      getThread();
       console.log(res);
     } catch (error) {
       console.log(error);
@@ -61,12 +67,6 @@ const ModalPost: React.FC<IThreadPostProps> = ({ threadId }) => {
     const { name, files, value } = e.target;
 
     if (files) {
-      // const imagePreview = e.target.files ? e.target.files[0] : null;
-
-      // if (imagePreview) {
-      //   setPreview(URL.createObjectURL(imagePreview));
-      // }
-
       setPostThreads({
         ...postThreads,
         [name]: files,

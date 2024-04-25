@@ -24,7 +24,6 @@ const ProfilPage = () => {
   const _host_url = "http://localhost:5000/uploads/";
 
   const { threadByToken, getThreadByToken } = useAllPost();
-  console.log(threadByToken);
 
   useEffect(() => {
     getThreadByToken();
@@ -138,7 +137,7 @@ const ProfilPage = () => {
             </Box>
 
             <Tabs isFitted variant="unstyled" mt={"320px"}>
-              <Box position={"fixed"} width={"695px"}>
+              <Box position={"fixed"} width={"695px"} zIndex={"999"}>
                 <TabList borderColor={"#3f3f3f"} bg={"#262626"}>
                   <Tab color={"#fff"}>All Post</Tab>
                   <Tab color={"#fff"}>Media</Tab>
@@ -160,7 +159,10 @@ const ProfilPage = () => {
                     {threadByToken?.map((item: any) => {
                       return (
                         <Box key={item.id}>
-                          <AllPost {...item} />
+                          <AllPost
+                            threadByToken={item}
+                            callback={getThreadByToken}
+                          />
                         </Box>
                       );
                     })}
@@ -169,7 +171,7 @@ const ProfilPage = () => {
                     <Grid templateColumns="repeat(2, 1fr)" gap={5}>
                       {threadByToken.map((item) => {
                         return (
-                          <Box key={item.id}>
+                          <>
                             {item.image &&
                               item.image.map((image: any) => {
                                 return (
@@ -187,7 +189,7 @@ const ProfilPage = () => {
                                   </GridItem>
                                 );
                               })}
-                          </Box>
+                          </>
                         );
                       })}
                     </Grid>

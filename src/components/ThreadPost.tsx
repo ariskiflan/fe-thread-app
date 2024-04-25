@@ -1,15 +1,19 @@
-import { Box, Button, Image, Input } from "@chakra-ui/react";
+import { Box, Button, Image, Input, useToast } from "@chakra-ui/react";
 import { LuImagePlus } from "react-icons/lu";
-import Avatar from "../assets/image/customer-5.jpg";
 import React, { ChangeEvent, SyntheticEvent, useRef, useState } from "react";
 import { createThreads } from "../libs/api/call/thread";
+import { RootState, useAppDispatch, useAppSelector } from "../store";
+import { getThreadAsync } from "../store/async/thread";
 
 interface IThreadPostProps {
   threadId?: number;
-  callback?: () => {};
+  callback?: () => Promise<void>;
 }
 
 const ThreadPost: React.FC<IThreadPostProps> = ({ threadId, callback }) => {
+  const profile = useAppSelector((state: RootState) => state.auth.user);
+  const _host_url = "http://localhost:5000/uploads/";
+
   const [postThreads, setPostThreads] = useState<{
     content: string;
     image: FileList | null;
@@ -18,6 +22,10 @@ const ThreadPost: React.FC<IThreadPostProps> = ({ threadId, callback }) => {
     content: "",
     image: null,
   });
+
+  const [preview, setPreview] = useState<any>([]);
+  const toast = useToast();
+  const dispatch = useAppDispatch();
 
   const handlePostThreads = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -33,8 +41,19 @@ const ThreadPost: React.FC<IThreadPostProps> = ({ threadId, callback }) => {
         image: null,
       });
 
+      toast({
+        title: "Thread Added!",
+        status: "success",
+        position: "top",
+        isClosable: true,
+      });
+
+      setPreview([]);
+
       if (callback) {
-        callback();
+        await callback();
+      } else {
+        await dispatch(getThreadAsync());
       }
       console.log(res);
     } catch (error) {
@@ -46,11 +65,10 @@ const ThreadPost: React.FC<IThreadPostProps> = ({ threadId, callback }) => {
     const { name, files, value } = e.target;
 
     if (files) {
-      // const imagePreview = e.target.files ? e.target.files[0] : null;
-
-      // if (imagePreview) {
-      //   setPreview(URL.createObjectURL(imagePreview));
-      // }
+      const fileList = Array.from(files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      setPreview(fileList);
 
       setPostThreads({
         ...postThreads,
@@ -73,6 +91,7 @@ const ThreadPost: React.FC<IThreadPostProps> = ({ threadId, callback }) => {
       inputRef.current.click();
     }
   };
+
   return (
     <div>
       <form encType="multipart/form-data" onSubmit={handlePostThreads}>
@@ -87,10 +106,11 @@ const ThreadPost: React.FC<IThreadPostProps> = ({ threadId, callback }) => {
         >
           <Box display={"flex"} gap={"10px"} alignItems={"center"}>
             <Image
-              src={Avatar}
+              src={_host_url + profile?.avatar}
               rounded={"full"}
               width={"40px"}
               height={"40px"}
+              objectFit={"cover"}
             />
 
             <Input
@@ -143,6 +163,18 @@ const ThreadPost: React.FC<IThreadPostProps> = ({ threadId, callback }) => {
           </Box>
         </Box>
       </form>
+      <Box
+        display={"flex"}
+        flexWrap={"wrap"}
+        gap={"10px"}
+        justifyContent={"center"}
+      >
+        {preview
+          ? preview.map((item: any) => (
+              <Image width={"30%"} src={item} rounded={"10px"} />
+            ))
+          : ""}
+      </Box>
     </div>
   );
 };

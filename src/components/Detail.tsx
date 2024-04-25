@@ -1,18 +1,18 @@
 import { Box, Grid, GridItem, Image, Text } from "@chakra-ui/react";
-import { FaArrowLeft, FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import Message from "../assets/image/message-text.png";
 import { GoDotFill } from "react-icons/go";
-import Avatar from "../assets/image/customer-5.jpg";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ThreadPost from "./ThreadPost";
 import { IThread } from "../types/app";
 import { getReplies, getThreadById } from "../libs/api/call/thread";
 import Thread from "./Thread";
-import useLikes from "../hooks/useLikes";
+import Like from "./Like";
 
 const Detail = () => {
   const { id } = useParams();
+  const _host_url = "http://localhost:5000/uploads/";
 
   const [threadDetail, setThreadDetail] = useState<IThread>({
     id: 0,
@@ -25,10 +25,21 @@ const Detail = () => {
       fullname: "",
       id: 0,
       username: "",
+      profile: {
+        avatar: "",
+        user: {
+          email: "",
+          fullname: "",
+          id: 0,
+          username: "",
+        },
+      },
+    },
+    _count: {
+      replies: 0,
+      like: 0,
     },
   });
-
-  const { toogleLikes, getLikes, totalLikes, likes } = useLikes(Number(id));
 
   const [replies, setReplies] = useState<IThread[]>([]);
 
@@ -46,8 +57,7 @@ const Detail = () => {
 
   useEffect(() => {
     getThreadDetails();
-    getLikes();
-  }, [id]);
+  }, []);
 
   return (
     <div>
@@ -82,7 +92,7 @@ const Detail = () => {
 
           <Box display={"flex"} gap={"10px"} alignItems={"center"} p={"20px"}>
             <Image
-              src={Avatar}
+              src={_host_url + threadDetail.auhtor?.profile?.avatar}
               rounded={"full"}
               width={"40px"}
               height={"40px"}
@@ -150,27 +160,16 @@ const Detail = () => {
 
             <Box display={"flex"} gap={"20px"}>
               <Box display={"flex"} alignItems={"center"} gap={"10px"}>
-                <Text
-                  onClick={() => {
-                    toogleLikes();
-                  }}
-                >
-                  {likes ? (
-                    <FaHeart size={"20px"} color={"red"} />
-                  ) : (
-                    <FaRegHeart size={"20px"} color={"#909090"} />
-                  )}
-                </Text>
-
+                <Like threadId={Number(id)} />
                 <Text size={"14px"} color={"#909090"}>
-                  {totalLikes}
+                  {threadDetail._count.like}
                 </Text>
               </Box>
 
               <Box display={"flex"} alignItems={"center"} gap={"10px"}>
                 <Image src={Message} width={"20px"} />
                 <Text size={"14px"} color={"#909090"}>
-                  25 Replies
+                  {threadDetail._count.replies} Replies
                 </Text>
               </Box>
             </Box>

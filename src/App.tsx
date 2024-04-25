@@ -17,6 +17,7 @@ import { useAppDispatch } from "./store";
 import { getProfile } from "./libs/api/call/profile";
 import { SET_LOGIN } from "./store/slice/auth";
 import { useEffect } from "react";
+import FollowPage from "./pages/FollowPage";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -61,6 +62,7 @@ function App() {
             <Route path="/profilepage/:id" Component={ProfilPage} />
             <Route path="/detailPage/:id" Component={DetailPage} />
             <Route path="/search" Component={SearchPage} />
+            <Route path="/follow" Component={FollowPage} />
           </Route>
 
           <Route path="/" element={<IsLogin />}>

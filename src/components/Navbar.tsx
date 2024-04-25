@@ -91,14 +91,16 @@ const Navbar = () => {
               }}
             >
               <FaRegHeart size={"24px"} color={"#fff"} />
-              <Text
-                size={"18px"}
-                fontWeight={"500"}
-                color={"#fff"}
-                cursor={"pointer"}
-              >
-                Follow
-              </Text>
+              <Link to={"/follow"}>
+                <Text
+                  size={"18px"}
+                  fontWeight={"500"}
+                  color={"#fff"}
+                  cursor={"pointer"}
+                >
+                  Follow
+                </Text>
+              </Link>
             </Box>
 
             <Box
