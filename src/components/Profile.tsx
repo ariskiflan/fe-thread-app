@@ -4,6 +4,7 @@ import { RootState, useAppSelector } from "../store";
 
 const Profile = () => {
   const profile = useAppSelector((state: RootState) => state.auth.user);
+
   const _host_url = "http://localhost:5000/uploads/";
 
   return (
@@ -55,19 +56,19 @@ const Profile = () => {
           <Box display={"flex"} gap={"20px"}>
             <Box display={"flex"} alignItems={"center"} gap={"10px"}>
               <Text fontSize={"12px"} color={"#fff"}>
-                291
+                {profile?.user?.following?.length}
               </Text>
               <Text fontSize={"12px"} color={"#909090"}>
-                Following
+                Followers
               </Text>
             </Box>
 
             <Box display={"flex"} alignItems={"center"} gap={"10px"}>
               <Text fontSize={"12px"} color={"#fff"}>
-                23
+                {profile?.user?.follower?.length}
               </Text>
               <Text fontSize={"12px"} color={"#909090"}>
-                Followers
+                Following
               </Text>
             </Box>
           </Box>

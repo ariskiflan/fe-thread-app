@@ -112,7 +112,7 @@ const Navbar = () => {
               }}
             >
               <FaRegUserCircle size={"24px"} color={"#fff"} />
-              <Link to={`/profilepage/${profile?.user.id}`}>
+              <Link to={`/myprofilepage/${profile?.user.id}`}>
                 <Text
                   size={"18px"}
                   fontWeight={"500"}

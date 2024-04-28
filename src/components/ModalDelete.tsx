@@ -18,7 +18,7 @@ import { useAppDispatch } from "../store";
 import { getThreadAsync } from "../store/async/thread";
 
 interface IModalDeleteProps {
-  thread: IThread;
+  thread?: IThread;
   callback?: () => {};
 }
 
@@ -91,7 +91,7 @@ const ModalDelete: React.FC<IModalDeleteProps> = ({ thread, callback }) => {
                 </Button>
 
                 <Button
-                  onClick={() => deletePost(Number(thread.id))}
+                  onClick={() => deletePost(Number(thread?.id))}
                   px={"3px"}
                   py={"4px"}
                   rounded={"full"}

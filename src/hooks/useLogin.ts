@@ -24,10 +24,10 @@ const useLogin = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await dispatch(loginAsync(formInput));
+      dispatch(loginAsync(formInput));
 
       navigate("/");
-      await dispatch(getProfileAsync(token));
+      dispatch(getProfileAsync(token!));
     } catch (error) {
       setMsg("Wrong username or password");
       console.log(error);

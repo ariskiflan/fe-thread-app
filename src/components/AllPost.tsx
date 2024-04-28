@@ -81,7 +81,7 @@ const AllPost: React.FC<IThreadCardPost> = ({ threadByToken, callback }) => {
                     <Image
                       src={"http://localhost:5000/uploads/" + image.image}
                       alt="image"
-                      height={"200px"}
+                      width={"200px"}
                       rounded={"10px"}
                       objectFit={"cover"}
                     />

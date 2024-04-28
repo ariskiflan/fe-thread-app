@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Image,
   Input,
   InputGroup,
@@ -13,6 +12,7 @@ import { RiUserSearchLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { IUserSearch } from "../types/app";
 import { getUsers } from "../libs/api/call/user";
+import ButtonFollow from "../components/ButtonFollow";
 
 const SearchPage = () => {
   const [input, setInput] = useState("");
@@ -135,21 +135,7 @@ const SearchPage = () => {
                       </Box>
                     </Box>
 
-                    <Button
-                      px={"2px"}
-                      py={"3px"}
-                      rounded={"full"}
-                      width={"106px"}
-                      height={"30px"}
-                      fontSize={"12px"}
-                      bg={"#3f3f3f"}
-                      color={"#fff"}
-                      borderColor={"#fff"}
-                      border={"1px"}
-                      _hover={{ bg: "#fff", color: "#3f3f3f" }}
-                    >
-                      follow
-                    </Button>
+                    <ButtonFollow />
                   </Box>
                 ))
               ) : (
@@ -160,7 +146,9 @@ const SearchPage = () => {
                   alignItems={"center"}
                   flexDir={"column"}
                 >
-                  <Text fontSize={"20px"}>No Result For "{input}"</Text>
+                  <Text fontSize={"20px"} color={"#fff"}>
+                    No Result For "{input}"
+                  </Text>
                   <Text
                     width={"300px"}
                     textAlign={"center"}

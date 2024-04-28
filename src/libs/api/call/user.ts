@@ -16,3 +16,19 @@ export const getUsers = async () => {
     },
   });
 };
+
+export const getUser = async (id: number) => {
+  return await apiConfig.get(`user/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+
+export const getUsersNotId = async () => {
+  return await apiConfig.get("suggested", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};

@@ -40,6 +40,14 @@ export const getThreadById = async (id: number) => {
   });
 };
 
+export const getThreadByUserId = async (id: number) => {
+  return await apiConfig.get(`threadByUserId/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+
 export const getReplies = async (id: number) => {
   return await apiConfig.get(`replies/${id}`, {
     headers: {

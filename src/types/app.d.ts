@@ -22,6 +22,13 @@ export interface IUser {
   fullname: string;
   email: string;
   profile?: IProfile;
+  following?: IFollowers[];
+  follower?: IFollowers[];
+}
+
+export interface IFollowers {
+  followerId: number;
+  followingId: number;
 }
 
 export interface IProfile {
@@ -55,13 +62,23 @@ export interface IUserSearch {
 
 export interface IFollowing {
   followingId: number;
+  followerId: number;
 }
 
 export interface IFollower {
   followerId: number;
+  followingId: number;
 }
 
 export interface IProfileSearch {
   bio?: string;
   avatar?: string;
+}
+
+export interface IFollow {
+  username: string;
+  id: number;
+  fullname: string;
+  profile: IProfile;
+  isFollowed: boolean;
 }

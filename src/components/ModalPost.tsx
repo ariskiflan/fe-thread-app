@@ -34,6 +34,7 @@ const ModalPost: React.FC<IThreadPostProps> = ({ threadId }) => {
     image: null,
   });
 
+  const [preview, setPreview] = useState<any>([]);
   const toast = useToast();
 
   const handlePostThreads = async (e: SyntheticEvent) => {
@@ -67,6 +68,10 @@ const ModalPost: React.FC<IThreadPostProps> = ({ threadId }) => {
     const { name, files, value } = e.target;
 
     if (files) {
+      const fileList = Array.from(files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      setPreview(fileList);
       setPostThreads({
         ...postThreads,
         [name]: files,
@@ -140,13 +145,19 @@ const ModalPost: React.FC<IThreadPostProps> = ({ threadId }) => {
                     />
                   </Box>
 
-                  {/* {preview ? (
-                    <Box display={"flex"} justifyContent={"center"} mt={"20px"}>
-                      <Image width={"300px"} src={preview} />
-                    </Box>
-                  ) : (
-                    ""
-                  )} */}
+                  <Box
+                    display={"flex"}
+                    flexWrap={"wrap"}
+                    gap={"10px"}
+                    justifyContent={"center"}
+                    pt={"20px"}
+                  >
+                    {preview
+                      ? preview.map((item: any) => (
+                          <Image width={"30%"} src={item} rounded={"10px"} />
+                        ))
+                      : ""}
+                  </Box>
 
                   <Box
                     display={"flex"}

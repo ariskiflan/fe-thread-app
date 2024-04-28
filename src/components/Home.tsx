@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Spinner, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Thread from "./Thread";
 import ThreadPost from "./ThreadPost";
@@ -7,6 +7,7 @@ import { getThreads } from "../libs/api/call/thread";
 
 const Home = () => {
   const [threads, setThreads] = useState<IThread[] | []>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // const [preview, setPreview] = useState("");
 
@@ -15,6 +16,7 @@ const Home = () => {
       const res = await getThreads();
 
       setThreads(res.data.data);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -59,13 +61,24 @@ const Home = () => {
           </Box>
 
           <Box mt={"140px"}>
-            {threads.map((item) => {
-              return (
-                <Box key={item.id}>
-                  <Thread thread={item} callback={getThread} />
-                </Box>
-              );
-            })}
+            {!isLoading ? (
+              threads?.map((item: any) => {
+                return (
+                  <Box key={item.id}>
+                    <Thread thread={item} callback={getThread} />
+                  </Box>
+                );
+              })
+            ) : (
+              <Box
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                mt={"50px"}
+              >
+                <Spinner color="#fff" width={"50px"} height={"50px"} />
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>

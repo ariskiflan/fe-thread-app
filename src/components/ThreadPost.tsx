@@ -34,7 +34,7 @@ const ThreadPost: React.FC<IThreadPostProps> = ({ threadId, callback }) => {
         postThreads.threadId = threadId;
       }
 
-      const res = await createThreads(postThreads);
+      await createThreads(postThreads);
 
       setPostThreads({
         content: "",
@@ -55,7 +55,6 @@ const ThreadPost: React.FC<IThreadPostProps> = ({ threadId, callback }) => {
       } else {
         await dispatch(getThreadAsync());
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
     }

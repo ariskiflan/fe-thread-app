@@ -11,13 +11,15 @@ import {
   Outlet,
 } from "react-router-dom";
 import DetailPage from "./pages/DetailPage";
-import ProfilPage from "./pages/ProfilePage";
 import SearchPage from "./pages/SearchPage";
 import { useAppDispatch } from "./store";
 import { getProfile } from "./libs/api/call/profile";
 import { SET_LOGIN } from "./store/slice/auth";
 import { useEffect } from "react";
 import FollowPage from "./pages/FollowPage";
+import MyProfilePage from "./pages/MyProfilePage";
+import ProfilPage from "./pages/ProfilePage";
+import DetailImage from "./pages/DetailImage";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -59,10 +61,12 @@ function App() {
         <Routes>
           <Route path="/" element={<IsNotLogin />}>
             <Route path="/" Component={Base} />
+            <Route path="/myprofilepage/:id" Component={MyProfilePage} />
             <Route path="/profilepage/:id" Component={ProfilPage} />
             <Route path="/detailPage/:id" Component={DetailPage} />
             <Route path="/search" Component={SearchPage} />
             <Route path="/follow" Component={FollowPage} />
+            <Route path="/detailimage/:id" Component={DetailImage} />
           </Route>
 
           <Route path="/" element={<IsLogin />}>

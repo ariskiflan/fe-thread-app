@@ -4,7 +4,6 @@ import Message from "../assets/image/message-text.png";
 import { IThread } from "../types/app";
 import React from "react";
 import { Link } from "react-router-dom";
-
 import ModalDelete from "./ModalDelete";
 import { formatDate } from "../libs/date/formatDate";
 import Like from "./Like";
@@ -15,7 +14,7 @@ interface IThreadCardPost {
 }
 
 const Thread: React.FC<IThreadCardPost> = ({ thread, callback }) => {
-  const { content, auhtor, image, id, posted_at, _count } = thread;
+  const { content, auhtor, image, id, userId, posted_at, _count } = thread;
 
   const _host_url = "http://localhost:5000/uploads/";
 
@@ -30,13 +29,15 @@ const Thread: React.FC<IThreadCardPost> = ({ thread, callback }) => {
           p={"20px"}
           position={"relative"}
         >
-          <Image
-            src={_host_url + auhtor?.profile?.avatar}
-            rounded={"full"}
-            width={"40px"}
-            height={"40px"}
-            objectFit={"cover"}
-          />
+          <Link to={`/profilepage/${userId}`}>
+            <Image
+              src={_host_url + auhtor?.profile?.avatar}
+              rounded={"full"}
+              width={"40px"}
+              height={"40px"}
+              objectFit={"cover"}
+            />
+          </Link>
 
           <Box>
             <Box
@@ -71,18 +72,20 @@ const Thread: React.FC<IThreadCardPost> = ({ thread, callback }) => {
             >
               {content}
             </Text>
-            <Grid templateColumns="repeat(2, 1fr)" gap={6} mb={"20px"}>
+            <Grid templateColumns="repeat(2, 1fr)" gap={"15px"} mb={"20px"}>
               {image &&
                 image.map((image) => (
                   <Box key={image.id}>
                     <GridItem>
-                      <Image
-                        src={"http://localhost:5000/uploads/" + image.image}
-                        alt="image"
-                        height={"200px"}
-                        rounded={"10px"}
-                        objectFit={"cover"}
-                      />
+                      <Link to={`/detailimage/${id}`}>
+                        <Image
+                          src={"http://localhost:5000/uploads/" + image.image}
+                          alt="image"
+                          width={"200px"}
+                          rounded={"10px"}
+                          objectFit={"cover"}
+                        />
+                      </Link>
                     </GridItem>
                   </Box>
                 ))}
