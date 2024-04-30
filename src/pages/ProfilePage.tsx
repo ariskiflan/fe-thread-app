@@ -14,17 +14,17 @@ import { FaArrowLeft } from "react-icons/fa";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { getUser } from "../libs/api/call/user";
-import { IThread, IUser } from "../types/app";
-import { getThreadByUserId } from "../libs/api/call/thread";
+import { IUser } from "../types/app";
 import { GoDotFill } from "react-icons/go";
 import ModalDelete from "../components/ModalDelete";
 import Like from "../components/Like";
 import Message from "../assets/image/message-text.png";
 import ButtonFollow from "../components/ButtonFollow";
+import { useAppDispatch, useAppSelector } from "../store";
+import { getThreadAsyncByUserId } from "../store/async/thread";
+import { formatDistanceToNow } from "date-fns";
 
 const ProfilPage = () => {
-  const _host_url = "http://localhost:5000/uploads/";
-
   const [user, setUser] = useState<IUser>({
     id: 0,
     username: "",
@@ -46,6 +46,8 @@ const ProfilPage = () => {
   });
 
   const { id } = useParams();
+  const { thread } = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
 
   const handleUser = async () => {
     try {
@@ -57,14 +59,9 @@ const ProfilPage = () => {
     }
   };
 
-  const [threadByUserId, setThreadByUserId] = useState<IThread[]>([]);
-
   const handleThreadByUserId = async () => {
     try {
-      const res = await getThreadByUserId(Number(id));
-      console.log(res);
-
-      setThreadByUserId(res.data.data);
+      await dispatch(getThreadAsyncByUserId(Number(id)));
     } catch (error) {
       console.log(error);
     }
@@ -123,7 +120,7 @@ const ProfilPage = () => {
                   <Image
                     width={"100%"}
                     height={"80px"}
-                    src={_host_url + user.profile?.cover}
+                    src={user.profile?.cover}
                     rounded={"10px"}
                     objectFit={"cover"}
                     alt="Cover"
@@ -136,7 +133,7 @@ const ProfilPage = () => {
                     pos={"absolute"}
                     top={"45px"}
                     left={"30px"}
-                    src={_host_url + user.profile?.avatar}
+                    src={user.profile?.avatar}
                     border={"4px"}
                     borderColor={"#262626"}
                     objectFit={"cover"}
@@ -144,7 +141,7 @@ const ProfilPage = () => {
                   />
 
                   <Box display={"flex"} justifyContent={"flex-end"} mt={"10px"}>
-                    <ButtonFollow followingId={user.id} />
+                    <ButtonFollow followingId={user.id} callback={handleUser} />
                   </Box>
                 </Box>
 
@@ -204,7 +201,7 @@ const ProfilPage = () => {
               >
                 <TabPanels>
                   <TabPanel color={"#fff"} p={"0"}>
-                    {threadByUserId.map((item) => (
+                    {thread.threads.map((item) => (
                       <Box>
                         <Box
                           display={"flex"}
@@ -215,7 +212,7 @@ const ProfilPage = () => {
                           position={"relative"}
                         >
                           <Image
-                            src={_host_url + item.auhtor?.profile?.avatar}
+                            src={item.auhtor?.profile?.avatar}
                             rounded={"full"}
                             width={"40px"}
                             height={"40px"}
@@ -239,7 +236,9 @@ const ProfilPage = () => {
                               <GoDotFill size={"10px"} color={"#909090"} />
 
                               <Text size={"14px"} color={"#909090"}>
-                                {item.posted_at}
+                                {formatDistanceToNow(new Date(item.posted_at), {
+                                  addSuffix: false,
+                                })}
                               </Text>
 
                               <Box
@@ -247,7 +246,10 @@ const ProfilPage = () => {
                                 right={"10px"}
                                 top={"22px"}
                               >
-                                <ModalDelete />
+                                <ModalDelete
+                                  thread={item}
+                                  callback={handleThreadByUserId}
+                                />
                               </Box>
                             </Box>
 
@@ -288,7 +290,10 @@ const ProfilPage = () => {
                                 alignItems={"center"}
                                 gap={"10px"}
                               >
-                                <Like threadId={Number(id)} />
+                                <Like
+                                  threadId={Number(item.id)}
+                                  callback={handleThreadByUserId}
+                                />
                                 <Text size={"14px"} color={"#909090"}>
                                   {item._count.like}
                                 </Text>
@@ -315,14 +320,14 @@ const ProfilPage = () => {
                   </TabPanel>
                   <TabPanel color={"#fff"}>
                     <Grid templateColumns="repeat(2, 1fr)" gap={5}>
-                      {threadByUserId.map((item) => {
+                      {thread.threads.map((item: any) => {
                         return (
                           <>
                             {item.image &&
                               item.image.map((image: any) => {
                                 return (
                                   <GridItem key={image.id}>
-                                    <Link to={`/detailimage/${id}`}>
+                                    <Link to={`/detailimage/${item.id}`}>
                                       <Image
                                         src={
                                           "http://localhost:5000/uploads/" +

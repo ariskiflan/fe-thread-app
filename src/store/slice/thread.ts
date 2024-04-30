@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IThread } from "../../types/app";
-import { getThreadAsync } from "../async/thread";
+import { getThreadAsync, getThreadAsyncByUserId } from "../async/thread";
 
 interface IInitialState {
   threads: IThread[];
@@ -16,6 +16,10 @@ const threadSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder.addCase(getThreadAsync.fulfilled, (state, action) => {
+      state.threads = action.payload;
+    });
+
+    builder.addCase(getThreadAsyncByUserId.fulfilled, (state, action) => {
       state.threads = action.payload;
     });
   },

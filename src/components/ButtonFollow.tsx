@@ -7,9 +7,10 @@ import { getProfileAsync } from "../store/async/auth";
 interface IButtonFollow {
   followingId?: number;
   isFollowed?: boolean;
+  callback?: () => Promise<void>;
 }
 
-const ButtonFollow: React.FC<IButtonFollow> = ({ followingId }) => {
+const ButtonFollow: React.FC<IButtonFollow> = ({ followingId, callback }) => {
   const [isLoading, setIsloading] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
   const [follow, setFollow] = useState<boolean>(false);
@@ -20,11 +21,13 @@ const ButtonFollow: React.FC<IButtonFollow> = ({ followingId }) => {
   const dispatch = useAppDispatch();
   const handleFollow = async () => {
     setIsloading(true);
+
     try {
       await createFollow(Number(followingId));
-      // setIsFollowing(!isFollowing);
 
       const token = localStorage.getItem("token");
+
+      if (callback) callback();
 
       await dispatch(getProfileAsync(token!));
 

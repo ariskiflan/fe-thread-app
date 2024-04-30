@@ -13,10 +13,10 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { LuImagePlus } from "react-icons/lu";
-import Avatar from "../assets/image/customer-5.jpg";
-
 import { ChangeEvent, SyntheticEvent, useRef, useState } from "react";
 import { createThreads } from "../libs/api/call/thread";
+import { useAppDispatch, useAppSelector } from "../store";
+import { getThreadAsync } from "../store/async/thread";
 
 interface IThreadPostProps {
   threadId?: number;
@@ -24,6 +24,9 @@ interface IThreadPostProps {
 
 const ModalPost: React.FC<IThreadPostProps> = ({ threadId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const profile = useAppSelector((state) => state.auth.user);
+
+  const dispatch = useAppDispatch();
 
   const [postThreads, setPostThreads] = useState<{
     content: string;
@@ -44,7 +47,7 @@ const ModalPost: React.FC<IThreadPostProps> = ({ threadId }) => {
         postThreads.threadId = threadId;
       }
 
-      const res = await createThreads(postThreads);
+      await createThreads(postThreads);
 
       toast({
         title: "Thread Added!",
@@ -58,7 +61,9 @@ const ModalPost: React.FC<IThreadPostProps> = ({ threadId }) => {
         image: null,
       });
 
-      console.log(res);
+      setPreview([]);
+
+      dispatch(getThreadAsync());
     } catch (error) {
       console.log(error);
     }
@@ -128,11 +133,12 @@ const ModalPost: React.FC<IThreadPostProps> = ({ threadId }) => {
                     pb={"50px"}
                   >
                     <Image
-                      src={Avatar}
+                      src={profile?.avatar}
                       rounded={"full"}
                       width={"40px"}
                       height={"40px"}
-                    ></Image>
+                      objectFit={"cover"}
+                    />
 
                     <Input
                       variant="unstyled"

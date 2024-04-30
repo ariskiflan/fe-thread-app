@@ -2,11 +2,11 @@ import { Box, Grid, GridItem, Image, Text } from "@chakra-ui/react";
 import { GoDotFill } from "react-icons/go";
 import Message from "../assets/image/message-text.png";
 import { IThread } from "../types/app";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import ModalDelete from "./ModalDelete";
-import { formatDate } from "../libs/date/formatDate";
 import Like from "./Like";
+import { formatDistanceToNow } from "date-fns";
 
 interface IThreadCardPost {
   thread: IThread;
@@ -16,7 +16,9 @@ interface IThreadCardPost {
 const Thread: React.FC<IThreadCardPost> = ({ thread, callback }) => {
   const { content, auhtor, image, id, userId, posted_at, _count } = thread;
 
-  const _host_url = "http://localhost:5000/uploads/";
+  useEffect(() => {
+    if (callback) callback();
+  }, []);
 
   return (
     <div>
@@ -31,7 +33,7 @@ const Thread: React.FC<IThreadCardPost> = ({ thread, callback }) => {
         >
           <Link to={`/profilepage/${userId}`}>
             <Image
-              src={_host_url + auhtor?.profile?.avatar}
+              src={auhtor?.profile?.avatar}
               rounded={"full"}
               width={"40px"}
               height={"40px"}
@@ -57,7 +59,9 @@ const Thread: React.FC<IThreadCardPost> = ({ thread, callback }) => {
               <GoDotFill size={"10px"} color={"#909090"} />
 
               <Text size={"14px"} color={"#909090"}>
-                {formatDate(posted_at)}
+                {formatDistanceToNow(new Date(posted_at), {
+                  addSuffix: false,
+                })}
               </Text>
               <Box position={"absolute"} right={"10px"} top={"22px"}>
                 <ModalDelete thread={thread} callback={callback} />
@@ -77,15 +81,13 @@ const Thread: React.FC<IThreadCardPost> = ({ thread, callback }) => {
                 image.map((image) => (
                   <Box key={image.id}>
                     <GridItem>
-                      <Link to={`/detailimage/${id}`}>
-                        <Image
-                          src={"http://localhost:5000/uploads/" + image.image}
-                          alt="image"
-                          width={"200px"}
-                          rounded={"10px"}
-                          objectFit={"cover"}
-                        />
-                      </Link>
+                      <Image
+                        src={"http://localhost:5000/uploads/" + image.image}
+                        alt="image"
+                        width={"200px"}
+                        rounded={"10px"}
+                        objectFit={"cover"}
+                      />
                     </GridItem>
                   </Box>
                 ))}

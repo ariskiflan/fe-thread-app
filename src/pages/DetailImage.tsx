@@ -11,10 +11,10 @@ import Like from "../components/Like";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import "swiper/css";
 import { FaAngleLeft, FaAngleRight, FaArrowLeft } from "react-icons/fa";
+import ModalDelete from "../components/ModalDelete";
+// import { formatDistanceToNow } from "date-fns";
 
 const DetailImage = () => {
-  const _host_url = "http://localhost:5000/uploads/";
-
   const { id } = useParams();
 
   const [threadDetail, setThreadDetail] = useState<IThread>({
@@ -132,7 +132,7 @@ const DetailImage = () => {
                 position={"relative"}
               >
                 <Image
-                  src={_host_url + threadDetail.auhtor?.profile?.avatar}
+                  src={threadDetail.auhtor?.profile?.avatar}
                   rounded={"full"}
                   width={"40px"}
                   height={"40px"}
@@ -157,10 +157,13 @@ const DetailImage = () => {
                     <GoDotFill size={"10px"} color={"#909090"} />
 
                     <Text size={"14px"} color={"#909090"}>
+                      {/* {formatDistanceToNow(new Date(threadDetail.posted_at), {
+                        addSuffix: false,
+                      })} */}
                       {threadDetail.posted_at}
                     </Text>
                     <Box position={"absolute"} right={"10px"} top={"22px"}>
-                      {/* <ModalDelete thread={thread} callback={callback} /> */}
+                      <ModalDelete />
                     </Box>
                   </Box>
 
@@ -175,7 +178,7 @@ const DetailImage = () => {
 
                   <Box display={"flex"} gap={"20px"}>
                     <Box display={"flex"} alignItems={"center"} gap={"10px"}>
-                      <Like threadId={Number(id)} />
+                      <Like threadId={Number(id)} callback={getThreadDetails} />
                       <Text size={"14px"} color={"#909090"}>
                         {threadDetail._count.like}
                       </Text>
@@ -195,7 +198,7 @@ const DetailImage = () => {
               {replies.map((item) => {
                 return (
                   <Box key={item.id}>
-                    <Thread thread={item} />
+                    <Thread thread={item} callback={getThreadDetails} />
                   </Box>
                 );
               })}

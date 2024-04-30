@@ -95,7 +95,7 @@ const ModalProfile = () => {
       setFormInput(formInput);
 
       await dispatch(getProfileAsync(token!));
-      await dispatch(getThreadAsync());
+      dispatch(getThreadAsync());
       onClose();
     } catch (error) {
       console.log(error);

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getThreads } from "../../libs/api/call/thread";
+import { getThreadByUserId, getThreads } from "../../libs/api/call/thread";
 
 export const getThreadAsync = createAsyncThunk("thread/getThread", async () => {
   try {
@@ -10,3 +10,16 @@ export const getThreadAsync = createAsyncThunk("thread/getThread", async () => {
     console.log(error);
   }
 });
+
+export const getThreadAsyncByUserId = createAsyncThunk(
+  "thread/getThreadbyUserId",
+  async (id: number) => {
+    try {
+      const threadByIdRes = await getThreadByUserId(id);
+
+      return threadByIdRes.data.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);

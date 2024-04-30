@@ -24,7 +24,6 @@ import Footer from "../components/Footer";
 
 const MyProfilePage = () => {
   const profile = useAppSelector((state) => state.auth.user);
-  const _host_url = "http://localhost:5000/uploads/";
 
   const { threadByToken, getThreadByToken } = useAllPost();
 
@@ -80,7 +79,7 @@ const MyProfilePage = () => {
                   <Image
                     width={"100%"}
                     height={"80px"}
-                    src={_host_url + profile?.cover}
+                    src={profile?.cover}
                     rounded={"10px"}
                     objectFit={"cover"}
                     alt="Cover"
@@ -93,7 +92,7 @@ const MyProfilePage = () => {
                     pos={"absolute"}
                     top={"45px"}
                     left={"30px"}
-                    src={_host_url + profile?.avatar}
+                    src={profile?.avatar}
                     border={"4px"}
                     borderColor={"#262626"}
                     objectFit={"cover"}

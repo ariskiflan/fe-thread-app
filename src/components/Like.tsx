@@ -9,9 +9,9 @@ interface ILikeButtonProps {
 }
 const Like: React.FC<ILikeButtonProps> = ({ threadId, callback }) => {
   const [liked, setliked] = useState(false);
-  //   const { user } = useAppSelector((state) => state.auth);
+  //
 
-  const getLike = async () => {
+  const getLikes = async () => {
     try {
       const res = await getCurrentLike(threadId);
 
@@ -27,14 +27,14 @@ const Like: React.FC<ILikeButtonProps> = ({ threadId, callback }) => {
     try {
       await createLike(threadId);
 
-      await getLike();
+      await getLikes();
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getLike();
+    getLikes();
   }, []);
 
   return (

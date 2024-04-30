@@ -5,8 +5,6 @@ import { RootState, useAppSelector } from "../store";
 const Profile = () => {
   const profile = useAppSelector((state: RootState) => state.auth.user);
 
-  const _host_url = "http://localhost:5000/uploads/";
-
   return (
     <div>
       <Box p={"15px"} bg={"#3f3f3f"} rounded={"lg"} mb={"20px"}>
@@ -17,7 +15,7 @@ const Profile = () => {
           <Image
             width={"350px"}
             height={"80px"}
-            src={_host_url + profile?.cover}
+            src={profile?.cover}
             objectFit={"cover"}
             alt="Cover"
             rounded={"10px"}
@@ -30,7 +28,7 @@ const Profile = () => {
             pos={"absolute"}
             top={"45px"}
             left={"30px"}
-            src={_host_url + profile?.avatar}
+            src={profile?.avatar}
             border={"4px"}
             borderColor={"#262626"}
             objectFit={"cover"}

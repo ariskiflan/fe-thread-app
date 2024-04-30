@@ -12,7 +12,6 @@ interface IThreadPostProps {
 
 const ThreadPost: React.FC<IThreadPostProps> = ({ threadId, callback }) => {
   const profile = useAppSelector((state: RootState) => state.auth.user);
-  const _host_url = "http://localhost:5000/uploads/";
 
   const [postThreads, setPostThreads] = useState<{
     content: string;
@@ -42,7 +41,7 @@ const ThreadPost: React.FC<IThreadPostProps> = ({ threadId, callback }) => {
       });
 
       toast({
-        title: "Thread Added!",
+        title: "Success Added!",
         status: "success",
         position: "top",
         isClosable: true,
@@ -105,7 +104,7 @@ const ThreadPost: React.FC<IThreadPostProps> = ({ threadId, callback }) => {
         >
           <Box display={"flex"} gap={"10px"} alignItems={"center"}>
             <Image
-              src={_host_url + profile?.avatar}
+              src={profile?.avatar}
               rounded={"full"}
               width={"40px"}
               height={"40px"}
