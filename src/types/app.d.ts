@@ -1,7 +1,7 @@
 export interface IThread {
   id?: number;
   content?: string;
-  image?: IThread[];
+  image?: IThreadImage[];
   userId: number;
   threadId?: number;
   auhtor?: IUser;
@@ -13,6 +13,7 @@ export interface IThread {
 }
 
 interface IThreadImage {
+  id: number;
   image?: string;
 }
 

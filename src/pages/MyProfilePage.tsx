@@ -179,10 +179,7 @@ const MyProfilePage = () => {
                                 return (
                                   <GridItem key={image.id}>
                                     <Image
-                                      src={
-                                        "http://localhost:5000/uploads/" +
-                                        image.image
-                                      }
+                                      src={image.image}
                                       alt="image"
                                       height={"200px"}
                                       rounded={"10px"}

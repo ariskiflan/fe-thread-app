@@ -82,7 +82,7 @@ const Thread: React.FC<IThreadCardPost> = ({ thread, callback }) => {
                   <Box key={image.id}>
                     <GridItem>
                       <Image
-                        src={"http://localhost:5000/uploads/" + image.image}
+                        src={image.image}
                         alt="image"
                         width={"200px"}
                         rounded={"10px"}

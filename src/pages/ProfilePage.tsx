@@ -271,10 +271,7 @@ const ProfilPage = () => {
                                 item.image.map((image) => (
                                   <GridItem key={image.id}>
                                     <Image
-                                      src={
-                                        "http://localhost:5000/uploads/" +
-                                        image.image
-                                      }
+                                      src={image.image}
                                       alt="image"
                                       width={"200px"}
                                       rounded={"10px"}
@@ -329,10 +326,7 @@ const ProfilPage = () => {
                                   <GridItem key={image.id}>
                                     <Link to={`/detailimage/${item.id}`}>
                                       <Image
-                                        src={
-                                          "http://localhost:5000/uploads/" +
-                                          image.image
-                                        }
+                                        src={image.image}
                                         alt="image"
                                         height={"200px"}
                                         rounded={"10px"}

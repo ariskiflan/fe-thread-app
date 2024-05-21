@@ -80,7 +80,7 @@ const AllPost: React.FC<IThreadCardPost> = ({ threadByToken, callback }) => {
                   <GridItem key={image.id}>
                     <Link to={`/detailimage/${id}`}>
                       <Image
-                        src={"http://localhost:5000/uploads/" + image.image}
+                        src={image.image}
                         alt="image"
                         width={"200px"}
                         rounded={"10px"}

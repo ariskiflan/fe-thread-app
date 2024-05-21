@@ -9,6 +9,8 @@ const Home = () => {
   const [threads, setThreads] = useState<IThread[] | []>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  console.log(threads);
+
   // const [preview, setPreview] = useState("");
 
   const getThread = async () => {
