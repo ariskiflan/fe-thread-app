@@ -60,7 +60,7 @@ const AllPost: React.FC<IThreadCardPost> = ({ threadByToken, callback }) => {
                 })}
               </Text>
 
-              <Box position={"absolute"} right={"10px"} top={"22px"}>
+              <Box position={"absolute"} right={"10px"} top={"10px"}>
                 <ModalDelete thread={threadByToken} />
               </Box>
             </Box>

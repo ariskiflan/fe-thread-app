@@ -22,7 +22,7 @@ import { useAppDispatch, useAppSelector } from "../store";
 import { getProfileAsync } from "../store/async/auth";
 import { getThreadAsync } from "../store/async/thread";
 
-const ModalProfile = () => {
+const modal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const token = useAppSelector((state) => state.auth.token);
@@ -330,4 +330,4 @@ const ModalProfile = () => {
   );
 };
 
-export default ModalProfile;
+export default modal;

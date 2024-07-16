@@ -21,11 +21,10 @@ const Navbar = () => {
   const profile = useAppSelector((state: RootState) => state.auth.user);
 
   return (
-    <div>
+    <Box display={{ base: "none", md: "flex" }} bg={"#262626"}>
       <Box
         width={"270px"}
         height={"100vh"}
-        position={"fixed"}
         display={"flex"}
         flexDir={"column"}
         justifyContent={"space-between"}
@@ -148,7 +147,7 @@ const Navbar = () => {
           </Text>
         </Box>
       </Box>
-    </div>
+    </Box>
   );
 };
 

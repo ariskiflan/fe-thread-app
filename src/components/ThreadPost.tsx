@@ -91,7 +91,7 @@ const ThreadPost: React.FC<IThreadPostProps> = ({ threadId, callback }) => {
   };
 
   return (
-    <div>
+    <Box>
       <form encType="multipart/form-data" onSubmit={handlePostThreads}>
         <Box
           borderBottom={"1px"}
@@ -173,7 +173,7 @@ const ThreadPost: React.FC<IThreadPostProps> = ({ threadId, callback }) => {
             ))
           : ""}
       </Box>
-    </div>
+    </Box>
   );
 };
 

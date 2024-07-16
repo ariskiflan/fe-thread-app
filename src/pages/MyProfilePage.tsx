@@ -12,37 +12,31 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
-import Navbar from "../components/Navbar";
+
 import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-import ModalProfile from "../components/ModalProfile";
+import Modal from "../components/ModalProfile";
 import AllPost from "../components/AllPost";
-import { useAppSelector } from "../store";
 import useAllPost from "../hooks/useAllPost";
-import Suggested from "../components/Suggested";
-import Footer from "../components/Footer";
 
-const MyProfilePage = () => {
-  const profile = useAppSelector((state) => state.auth.user);
+import { RootState, useAppSelector } from "../store";
+import NavMobile from "../components/NavMobile";
 
+const aris = () => {
+  const profile = useAppSelector((state: RootState) => state.auth.user);
   const { threadByToken, getThreadByToken } = useAllPost();
 
   useEffect(() => {
     getThreadByToken();
   }, []);
+
   return (
     <div>
       {" "}
       <Box display={"flex"} bg={"#262626"}>
-        <Navbar />
-        <Box
-          borderRight={"1px"}
-          borderLeft={"1px"}
-          borderColor={"#3f3f3f"}
-          ml={"270px"}
-        >
+        <Box borderRight={"1px"} borderLeft={"1px"} borderColor={"#3f3f3f"}>
           <Box
-            width={"695px"}
+            width={{ base: "100%", sm: "768px", lg: "870px" }}
             height={"100vh"}
             display={"flex"}
             flexDir={"column"}
@@ -55,7 +49,7 @@ const MyProfilePage = () => {
             }}
           >
             <Box
-              width={"695px"}
+              width={{ base: "100%", sm: "768px", lg: "870px" }}
               zIndex={"999"}
               bgColor={"#262626"}
               position={"fixed"}
@@ -99,7 +93,7 @@ const MyProfilePage = () => {
                     alt="Avatar"
                   />
 
-                  <ModalProfile />
+                  <Modal />
                 </Box>
 
                 <Box display={"flex"} flexDir={"column"} gap={"5px"}>
@@ -139,7 +133,11 @@ const MyProfilePage = () => {
             </Box>
 
             <Tabs isFitted variant="unstyled" mt={"320px"}>
-              <Box position={"fixed"} width={"695px"} zIndex={"999"}>
+              <Box
+                position={"fixed"}
+                width={{ base: "100%", sm: "768px", lg: "870px" }}
+                zIndex={"999"}
+              >
                 <TabList borderColor={"#3f3f3f"} bg={"#262626"}>
                   <Tab color={"#fff"}>All Post</Tab>
                   <Tab color={"#fff"}>Media</Tab>
@@ -160,7 +158,7 @@ const MyProfilePage = () => {
                   <TabPanel color={"#fff"} p={"0"}>
                     {threadByToken?.map((item: any) => {
                       return (
-                        <Box key={item.id}>
+                        <Box key={item.id} width={"100%"}>
                           <AllPost
                             threadByToken={item}
                             callback={getThreadByToken}
@@ -177,7 +175,7 @@ const MyProfilePage = () => {
                             {item.image &&
                               item.image.map((image: any) => {
                                 return (
-                                  <GridItem key={image.id}>
+                                  <GridItem key={image.id} width={"100%"}>
                                     <Image
                                       src={image.image}
                                       alt="image"
@@ -197,23 +195,18 @@ const MyProfilePage = () => {
               </Box>
             </Tabs>
           </Box>
-        </Box>
-        <Box
-          width={"400px"}
-          height={"1117px"}
-          position={"fixed"}
-          top={"0"}
-          right={"0"}
-          display={"flex"}
-          flexDir={"column"}
-          p={"20px"}
-        >
-          <Suggested />
-          <Footer />
+
+          <Box
+            pos={"absolute"}
+            bottom={"0"}
+            width={{ base: "100%", sm: "768px", lg: "870px" }}
+          >
+            <NavMobile />
+          </Box>
         </Box>
       </Box>
     </div>
   );
 };
 
-export default MyProfilePage;
+export default aris;

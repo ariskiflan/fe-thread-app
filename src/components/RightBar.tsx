@@ -6,7 +6,7 @@ import Profile from "./Profile";
 
 const RightBar = () => {
   return (
-    <div>
+    <Box display={{ base: "none", xl: "flex" }}>
       <Box
         width={"400px"}
         height={"1117px"}
@@ -14,12 +14,13 @@ const RightBar = () => {
         display={"flex"}
         flexDir={"column"}
         p={"20px"}
+        bg={"#262626"}
       >
         <Profile />
         <Suggested />
         <Footer />
       </Box>
-    </div>
+    </Box>
   );
 };
 

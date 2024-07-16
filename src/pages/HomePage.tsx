@@ -1,12 +1,13 @@
 import { Box, Spinner, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import Thread from "./Thread";
-import ThreadPost from "./ThreadPost";
+import Thread from "../components/Thread";
+import ThreadPost from "../components/ThreadPost";
 import { IThread } from "../types/app";
 import { getThreads } from "../libs/api/call/thread";
-import NavMobile from "./NavMobile";
+import NavMobile from "../components/NavMobile";
+// import NavMobile from "./NavMobile";
 
-const Home = () => {
+const HomePage = () => {
   const [threads, setThreads] = useState<IThread[] | []>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -42,10 +43,16 @@ const Home = () => {
             display: "none",
           },
         }}
-        width={{ base: "375px", lg: "870px" }}
+        width={{ base: "100%", sm: "768px", lg: "870px" }}
         pos={"relative"}
+        bg={"#262626"}
       >
-        <Box pos={"fixed"} bgColor={"#262626"} zIndex={"999"}>
+        <Box
+          pos={"fixed"}
+          bgColor={"#262626"}
+          zIndex={"999"}
+          width={{ base: "100%", sm: "768px", lg: "870px" }}
+        >
           <Text
             fontSize={"28px"}
             fontWeight={"700"}
@@ -80,11 +87,15 @@ const Home = () => {
         </Box>
       </Box>
 
-      <Box pos={"absolute"} bottom={"0"} width={"100%"}>
+      <Box
+        pos={"absolute"}
+        bottom={"0"}
+        width={{ base: "100%", sm: "768px", lg: "870px" }}
+      >
         <NavMobile />
       </Box>
     </Box>
   );
 };
 
-export default Home;
+export default HomePage;

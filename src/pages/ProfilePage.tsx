@@ -6,9 +6,6 @@ import {
   TabIndicator,
   Text,
 } from "@chakra-ui/react";
-import Navbar from "../components/Navbar";
-import Suggested from "../components/Suggested";
-import Footer from "../components/Footer";
 import { Link, useParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
@@ -23,6 +20,7 @@ import ButtonFollow from "../components/ButtonFollow";
 import { useAppDispatch, useAppSelector } from "../store";
 import { getThreadAsyncByUserId } from "../store/async/thread";
 import { formatDistanceToNow } from "date-fns";
+import NavMobile from "../components/NavMobile";
 
 const ProfilPage = () => {
   const [user, setUser] = useState<IUser>({
@@ -75,15 +73,9 @@ const ProfilPage = () => {
   return (
     <div>
       <Box display={"flex"} bg={"#262626"}>
-        <Navbar />
-        <Box
-          borderRight={"1px"}
-          borderLeft={"1px"}
-          borderColor={"#3f3f3f"}
-          ml={"270px"}
-        >
+        <Box borderRight={"1px"} borderLeft={"1px"} borderColor={"#3f3f3f"}>
           <Box
-            width={"695px"}
+            width={{ base: "100%", sm: "768px", lg: "870px" }}
             height={"100vh"}
             display={"flex"}
             flexDir={"column"}
@@ -96,7 +88,7 @@ const ProfilPage = () => {
             }}
           >
             <Box
-              width={"695px"}
+              width={{ base: "100%", sm: "768px", lg: "870px" }}
               zIndex={"999"}
               bgColor={"#262626"}
               position={"fixed"}
@@ -182,7 +174,11 @@ const ProfilPage = () => {
             </Box>
 
             <Tabs isFitted variant="unstyled" mt={"320px"}>
-              <Box position={"fixed"} width={"695px"} zIndex={"999"}>
+              <Box
+                position={"fixed"}
+                width={{ base: "100%", sm: "768px", lg: "870px" }}
+                zIndex={"999"}
+              >
                 <TabList borderColor={"#3f3f3f"} bg={"#262626"}>
                   <Tab color={"#fff"}>All Post</Tab>
                   <Tab color={"#fff"}>Media</Tab>
@@ -345,19 +341,14 @@ const ProfilPage = () => {
               </Box>
             </Tabs>
           </Box>
-        </Box>
-        <Box
-          width={"400px"}
-          height={"1117px"}
-          position={"fixed"}
-          top={"0"}
-          right={"0"}
-          display={"flex"}
-          flexDir={"column"}
-          p={"20px"}
-        >
-          <Suggested />
-          <Footer />
+
+          <Box
+            pos={"absolute"}
+            bottom={"0"}
+            width={{ base: "100%", sm: "768px", lg: "870px" }}
+          >
+            <NavMobile />
+          </Box>
         </Box>
       </Box>
     </div>

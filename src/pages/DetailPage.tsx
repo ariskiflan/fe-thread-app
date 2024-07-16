@@ -1,6 +1,5 @@
 import { Box, Grid, GridItem, Image, Text } from "@chakra-ui/react";
-import Navbar from "../components/Navbar";
-import RightBar from "../components/RightBar";
+
 import { Link, useParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
@@ -11,6 +10,7 @@ import { useEffect, useState } from "react";
 import { IThread } from "../types/app";
 import { getReplies, getThreadById } from "../libs/api/call/thread";
 import Message from "../assets/image/message-text.png";
+import NavMobile from "../components/NavMobile";
 
 const DetailPage = () => {
   const { id } = useParams();
@@ -63,15 +63,9 @@ const DetailPage = () => {
   return (
     <div>
       <Box display={"flex"} bg={"#262626"}>
-        <Navbar />
-        <Box
-          borderRight={"1px"}
-          borderLeft={"1px"}
-          borderColor={"#3f3f3f"}
-          ml={"270px"}
-        >
+        <Box borderRight={"1px"} borderLeft={"1px"} borderColor={"#3f3f3f"}>
           <Box
-            width={"695px"}
+            width={{ base: "100%", sm: "768px", lg: "870px" }}
             height={"100vh"}
             display={"flex"}
             flexDir={"column"}
@@ -139,7 +133,7 @@ const DetailPage = () => {
                   threadDetail.image.map((image: any) => (
                     <GridItem>
                       <Image
-                        src={"http://localhost:5000/uploads/" + image.image}
+                        src={image.image}
                         alt="image"
                         height={"200px"}
                         rounded={"10px"}
@@ -195,8 +189,9 @@ const DetailPage = () => {
               );
             })}
           </Box>
+
+          <NavMobile />
         </Box>
-        <RightBar />
       </Box>
     </div>
   );

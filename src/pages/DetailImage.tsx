@@ -97,7 +97,7 @@ const DetailImage = () => {
                 <SwiperSlide key={image.image}>
                   <Box>
                     <Image
-                      src={"http://localhost:5000/uploads/" + image.image}
+                      src={image.image}
                       alt="image"
                       height={"100vh"}
                       width={"100%"}

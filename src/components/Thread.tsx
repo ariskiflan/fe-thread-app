@@ -24,12 +24,15 @@ const Thread: React.FC<IThreadCardPost> = ({ thread, callback }) => {
     <div>
       <Box>
         <Box
-          display={"flex"}
+          display={"grid"}
+          gridTemplateColumns={"auto 1fr"}
           gap={"10px"}
           borderBottom={"1px"}
           borderColor={"#3f3f3f"}
           p={"20px"}
           position={"relative"}
+          bg={"#262626"}
+          width={{ base: "100%", sm: "768px", lg: "870px" }}
         >
           <Link to={`/profilepage/${userId}`}>
             <Image
@@ -47,6 +50,7 @@ const Thread: React.FC<IThreadCardPost> = ({ thread, callback }) => {
               gap={"10px"}
               mb={"10px"}
               alignItems={"center"}
+              width={"100%"}
             >
               <Text size={"14px"} color={"#fff"}>
                 {auhtor?.fullname}
@@ -63,7 +67,7 @@ const Thread: React.FC<IThreadCardPost> = ({ thread, callback }) => {
                   addSuffix: false,
                 })}
               </Text>
-              <Box position={"absolute"} right={"10px"} top={"22px"}>
+              <Box position={"absolute"} right={"10px"} top={"10px"}>
                 <ModalDelete thread={thread} callback={callback} />
               </Box>
             </Box>

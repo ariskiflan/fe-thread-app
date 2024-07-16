@@ -2,7 +2,6 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
-import Base from "./pages/Base";
 import {
   BrowserRouter as Router,
   Routes,
@@ -20,6 +19,8 @@ import FollowPage from "./pages/FollowPage";
 import MyProfilePage from "./pages/MyProfilePage";
 import ProfilPage from "./pages/ProfilePage";
 import DetailImage from "./pages/DetailImage";
+import RootLayout from "./layout/RootLayout";
+import HomePage from "./pages/HomePage";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -60,13 +61,25 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<IsNotLogin />}>
-            <Route path="/" Component={Base} />
+            <Route path="/" element={<RootLayout />}>
+              <Route index element={<HomePage />} />
+              <Route path="/profilepage/:id" Component={ProfilPage} />
+              <Route path="/detailPage/:id" Component={DetailPage} />
+              <Route path="/search" Component={SearchPage} />
+              <Route path="/follow" Component={FollowPage} />
+            </Route>
+            <Route path="/" element={<RootLayout />}>
+              <Route path="/myprofilepage/:id" Component={MyProfilePage} />
+            </Route>
+            <Route path="/detailimage/:id" Component={DetailImage} />
+
+            {/* <Route path="/" Component={Base} />
             <Route path="/myprofilepage/:id" Component={MyProfilePage} />
             <Route path="/profilepage/:id" Component={ProfilPage} />
             <Route path="/detailPage/:id" Component={DetailPage} />
             <Route path="/search" Component={SearchPage} />
             <Route path="/follow" Component={FollowPage} />
-            <Route path="/detailimage/:id" Component={DetailImage} />
+            <Route path="/detailimage/:id" Component={DetailImage} /> */}
           </Route>
 
           <Route path="/" element={<IsLogin />}>
